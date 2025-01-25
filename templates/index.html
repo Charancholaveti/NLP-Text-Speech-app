@@ -1,0 +1,71 @@
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text and Speech App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Text and Speech App</h1>
+        <div id="options">
+            <button onclick="showTextToSpeech()">Text to Speech</button>
+            <button onclick="showSpeechToText()">Speech to Text</button>
+        </div>
+
+        <div id="textToSpeech" class="form" style="display: none;">
+            <h2>Enter Text to Convert to Speech</h2>
+            <textarea id="textInput" rows="4" placeholder="Type something..."></textarea>
+            <button onclick="convertTextToSpeech()">Convert to Speech</button>
+            <p id="sentimentResult"></p>
+        </div>
+
+        <div id="speechToText" class="form" style="display: none;">
+            <h2>Speak to Convert to Text</h2>
+            <button onclick="startSpeechRecognition()">Start Listening</button>
+            <p id="speechResult"></p>
+            <p id="speechSentiment"></p>  
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text and Speech App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Text and Speech App</h1>
+        <div id="options">
+            <button onclick="showTextToSpeech()">Text to Speech</button>
+            <button onclick="showSpeechToText()">Speech to Text</button>
+        </div>
+
+        <!-- Text to Speech Section -->
+        <div id="textToSpeech" class="form" style="display: none;">
+            <h2>Enter Text to Convert to Speech</h2>
+            <textarea id="textInput" rows="4" placeholder="Type something..."></textarea>
+            <button onclick="convertTextToSpeech()">Convert to Speech</button>
+            <p id="sentimentResult"></p>  <!-- Display Sentiment for Text-to-Speech -->
+        </div>
+
+        <!-- Speech to Text Section -->
+        <div id="speechToText" class="form" style="display: none;">
+            <h2>Speak to Convert to Text</h2>
+            <button onclick="startSpeechRecognition()">Start Listening</button>
+            <p id="speechResult"></p>  <!-- Display Recognized Speech -->
+            <p id="speechSentimentResult"></p>  <!-- Display Sentiment for Speech-to-Text -->
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
