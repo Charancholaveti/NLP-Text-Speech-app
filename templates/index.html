@@ -15,18 +15,20 @@
             <button onclick="showSpeechToText()">Speech to Text</button>
         </div>
 
+        
         <div id="textToSpeech" class="form" style="display: none;">
             <h2>Enter Text to Convert to Speech</h2>
             <textarea id="textInput" rows="4" placeholder="Type something..."></textarea>
             <button onclick="convertTextToSpeech()">Convert to Speech</button>
-            <p id="sentimentResult"></p>
+            <p id="sentimentResult"></p>  
         </div>
 
+        
         <div id="speechToText" class="form" style="display: none;">
             <h2>Speak to Convert to Text</h2>
             <button onclick="startSpeechRecognition()">Start Listening</button>
-            <p id="speechResult"></p>
-            <p id="speechSentiment"></p>  
+            <p id="speechResult"></p> 
+            <p id="speechSentimentResult"></p>  
         </div>
     </div>
 
@@ -42,27 +44,37 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="#" onclick="showSection('home')">Home</a></li>
+            <li><a href="#" onclick="showSection('textToSpeech')">Text-To-Speech</a></li>
+            <li><a href="#" onclick="showSection('speechToText')">Speech-To-Text</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
     <div class="container">
-        <h1>Text and Speech App</h1>
-        <div id="options">
-            <button onclick="showTextToSpeech()">Text to Speech</button>
-            <button onclick="showSpeechToText()">Speech to Text</button>
+        <!-- Home Section -->
+        <div id="home" class="section active">
+            <h1>Welcome to Text and Speech App</h1>
+            <p>Select an option from the navbar to get started.</p>
         </div>
 
-        <!-- Text to Speech Section -->
-        <div id="textToSpeech" class="form" style="display: none;">
+        <!-- Text-to-Speech Section -->
+        <div id="textToSpeech" class="section">
             <h2>Enter Text to Convert to Speech</h2>
             <textarea id="textInput" rows="4" placeholder="Type something..."></textarea>
             <button onclick="convertTextToSpeech()">Convert to Speech</button>
-            <p id="sentimentResult"></p>  <!-- Display Sentiment for Text-to-Speech -->
+            <p id="sentimentResult"></p>
         </div>
 
-        <!-- Speech to Text Section -->
-        <div id="speechToText" class="form" style="display: none;">
+        <!-- Speech-to-Text Section -->
+        <div id="speechToText" class="section">
             <h2>Speak to Convert to Text</h2>
             <button onclick="startSpeechRecognition()">Start Listening</button>
-            <p id="speechResult"></p>  <!-- Display Recognized Speech -->
-            <p id="speechSentimentResult"></p>  <!-- Display Sentiment for Speech-to-Text -->
+            <p id="speechResult"></p>
+            <p id="speechSentimentResult"></p>
         </div>
     </div>
 

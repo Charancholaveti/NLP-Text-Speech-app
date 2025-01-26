@@ -1,3 +1,4 @@
+
 // let audio = null;
 
 // function showTextToSpeech() {
@@ -64,9 +65,9 @@
 //         if (data.sentiment) {
 //             // Based on the source (whether it's text or speech), display sentiment in the correct section
 //             if (source === "textToSpeech") {
-//                 document.getElementById("sentimentResult").textContent = `Sentiment (Text-to-Speech): ${data.sentiment}`;
+//                 document.getElementById("sentimentResult").textContent = `Sentiment : ${data.sentiment}`;
 //             } else if (source === "speechToText") {
-//                 document.getElementById("speechSentimentResult").textContent = `Sentiment (Speech-to-Text): ${data.sentiment}`;
+//                 document.getElementById("speechSentimentResult").textContent = `Sentiment : ${data.sentiment}`;
 //             }
 //         } else {
 //             console.error("Sentiment analysis result missing.");
@@ -107,16 +108,27 @@
 // }
 let audio = null;
 
-function showTextToSpeech() {
-    document.getElementById("textToSpeech").style.display = "block";  // Show Text to Speech section
-    document.getElementById("speechToText").style.display = "none";  // Hide Speech to Text section
+// Function to switch between sections
+function showSection(sectionId) {
+    // Hide all sections
+    const sections = document.querySelectorAll('.section');
+    sections.forEach((section) => {
+        section.classList.remove('active');
+    });
+
+    // Show the selected section
+    const selectedSection = document.getElementById(sectionId);
+    if (selectedSection) {
+        selectedSection.classList.add('active');
+    }
 }
 
-function showSpeechToText() {
-    document.getElementById("speechToText").style.display = "block";  // Show Speech to Text section
-    document.getElementById("textToSpeech").style.display = "none";  // Hide Text to Speech section
-}
+// Initialize the Home section as visible
+document.addEventListener('DOMContentLoaded', () => {
+    showSection('home');
+});
 
+// Convert Text to Speech
 function convertTextToSpeech() {
     let text = document.getElementById("textInput").value;
     if (!text) {
@@ -124,7 +136,6 @@ function convertTextToSpeech() {
         return;
     }
 
-    // Fetch the audio file for the text using the backend API
     fetch('/text_to_speech', {
         method: 'POST',
         headers: {
@@ -134,16 +145,12 @@ function convertTextToSpeech() {
     })
     .then(response => response.json())
     .then(data => {
-        // Check if audio file URL is present in the response
         if (data.audio_file) {
-            // Stop the previous audio if it's playing
             if (audio) {
                 audio.pause();
-                audio.currentTime = 0;  // Reset the playback position to the beginning
+                audio.currentTime = 0;
             }
-
-            // Create a new Audio object with the updated audio file URL (with cache busting)
-            audio = new Audio(data.audio_file + "?t=" + new Date().getTime());  // Prevent caching
+            audio = new Audio(data.audio_file + "?t=" + new Date().getTime());
             audio.play();
         } else {
             console.error("Audio file not found in the response.");
@@ -153,10 +160,10 @@ function convertTextToSpeech() {
         console.error('Error fetching audio:', error);
     });
 
-    // Call sentiment analysis after text-to-speech
     analyzeSentiment(text, "textToSpeech");
 }
 
+// Analyze Sentiment
 function analyzeSentiment(text, source) {
     fetch('/analyze_sentiment', {
         method: 'POST',
@@ -167,13 +174,11 @@ function analyzeSentiment(text, source) {
     })
     .then(response => response.json())
     .then(data => {
-        // Display sentiment result
         if (data.sentiment) {
-            // Based on the source (whether it's text or speech), display sentiment in the correct section
             if (source === "textToSpeech") {
-                document.getElementById("sentimentResult").textContent = `Sentiment : ${data.sentiment}`;
+                document.getElementById("sentimentResult").textContent = `Sentiment: ${data.sentiment}`;
             } else if (source === "speechToText") {
-                document.getElementById("speechSentimentResult").textContent = `Sentiment : ${data.sentiment}`;
+                document.getElementById("speechSentimentResult").textContent = `Sentiment: ${data.sentiment}`;
             }
         } else {
             console.error("Sentiment analysis result missing.");
@@ -184,31 +189,26 @@ function analyzeSentiment(text, source) {
     });
 }
 
-// Speech-to-Text functionality
+// Speech-to-Text
 function startSpeechRecognition() {
     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    recognition.lang = 'en-US';  // Set language for speech recognition
+    recognition.lang = 'en-US';
 
-    // Display message when listening starts
     recognition.onstart = function() {
         document.getElementById("speechResult").textContent = "Listening...";
     };
 
-    // Handle results from the speech recognition
     recognition.onresult = function(event) {
         let transcript = event.results[0][0].transcript;
         document.getElementById("speechResult").textContent = `Recognized: ${transcript}`;
-
-        // Perform sentiment analysis on the recognized text
         analyzeSentiment(transcript, "speechToText");
     };
 
-    // Handle errors during recognition
     recognition.onerror = function(event) {
-        document.getElementById("speechResult").textContent = "Error occurred during speech recognition.";
+        document.getElementById("speechResult").textContent = "Error during speech recognition.";
         console.error("Speech recognition error:", event.error);
     };
 
-    // Start the speech recognition
     recognition.start();
 }
+
